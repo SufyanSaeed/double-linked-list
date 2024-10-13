@@ -340,5 +340,39 @@ public:
         } while (current != head);
         return nullptr;
     }
+    Node<T>* sortLinkedList(Node<T>* head)
+    {
+        if (head == nullptr || head->next == head)
+        {
+            return head;  // If the list is empty or has only one element, it's already sorted
+        }
+
+        bool swapped;
+        Node<T>* current;
+        Node<T>* last = nullptr;
+
+        do
+        {
+            swapped = false;
+            current = head;
+
+            while (current->next != last && current->next != head)
+            {
+                if (current->info > current->next->info)
+                {
+                    // Swap the data of the nodes
+                    T temp = current->info;
+                    current->info = current->next->info;
+                    current->next->info = temp;
+                    swapped = true;
+                }
+                current = current->next;
+            }
+            last = current;
+
+        } while (swapped);
+
+        return head;
+    }
 
 };
