@@ -374,5 +374,83 @@ public:
 
         return head;
     }
+    Node<T>* mergeLinkedLists(Node<T>* head1, Node<T>* head2)
+    {
+        if (head1 == nullptr) return head2;
+        if (head2 == nullptr) return head1;
+
+        Node<T>* tail1 = head1;
+        while (tail1->next != head1)
+        {
+            tail1 = tail1->next;
+        }
+
+        Node<T>* tail2 = head2;
+        while (tail2->next != head2)
+        {
+            tail2 = tail2->next;
+        }
+
+        // Join the two lists
+        tail1->next = head2;
+        tail2->next = head1;  // This keeps the circular nature intact
+
+        return head1; // Return the new head of the merged list
+    }
+    bool deleteEvenNodes()
+    {
+        if (head == nullptr)
+        {
+            return false;
+        }
+
+        bool deletedAny = false;
+        Node<T>* current = head;
+        Node<T>* prev = nullptr;
+        while (current->info % 2 == 0)
+        {
+            deletedAny = true;
+            if (current->next == head)
+            {
+                delete head;
+                head = nullptr;
+                return true;
+            }
+            else
+            {
+                Node<T>* temp = current;
+                prev = head;
+                while (prev->next != head)
+                {
+                    prev = prev->next;
+                }
+                head = head->next;
+                prev->next = head;
+                current = head;
+                delete temp;
+            }
+        }
+        prev = current;
+        current = current->next;
+
+        while (current != head)
+        {
+            if (current->info % 2 == 0)
+            {
+                deletedAny = true;
+                Node<T>* temp = current;
+                prev->next = current->next;
+                current = current->next;
+                delete temp;
+            }
+            else
+            {
+                prev = current;
+                current = current->next;
+            }
+        }
+
+        return deletedAny;
+    }
 
 };
